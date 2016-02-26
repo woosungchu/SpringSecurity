@@ -1,10 +1,13 @@
-package com.woosungchu.SpringSecurity;
+package com.wsc.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+//URL Soure : http://websystique.com/spring-security/spring-security-4-hello-world-annotation-xml-example/
 
 @Configuration
 //Indicates that a class declares one or more @Bean methods and may be processed by the Spring container to generate bean definitions and service requests for those beans at runtime,
@@ -21,5 +24,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	        auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
 	        auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");//dba have two roles.
 	    }
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+//By default it will be applied to all requests, but can be restricted using requestMatcher(RequestMatcher)/antMathchers or other similar methods.
+		http.authorizeRequests()
+			.antMatchers("/","/home").permitAll()
+			.antMatchers("/admin/**").access("hasRole('ADMIN')")
+			.antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
+			.and().formLogin()
+			.and().exceptionHandling().accessDeniedPage("/Access_Denied");
+
+	}
+
+
 
 }
