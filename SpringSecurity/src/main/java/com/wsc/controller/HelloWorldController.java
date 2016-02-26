@@ -33,15 +33,15 @@ public class HelloWorldController {
 		model.addAttribute("user", getPrincipal());
 		return "dba";
 	}
-
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	   public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	      if (auth != null){
-	         new SecurityContextLogoutHandler().logout(request, response, auth);
-	      }
-	      return "welcome";
-	   }
+	//Practice1
+//	@RequestMapping(value="/logout", method = RequestMethod.GET)
+//	   public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+//	      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	      if (auth != null){
+//	         new SecurityContextLogoutHandler().logout(request, response, auth);
+//	      }
+//	      return "welcome";
+//	   }
 
 	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
 	public String accessDeniedPage(ModelMap model) {
@@ -59,5 +59,25 @@ public class HelloWorldController {
 			userName = principal.toString();
 		}
 		return userName;
+
 	}
+
+	//Practice2
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage() {
+		return "login";
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return "redirect:/login?logout"; // redirected at Practice 2
+	}
+
+
+
+
 }
