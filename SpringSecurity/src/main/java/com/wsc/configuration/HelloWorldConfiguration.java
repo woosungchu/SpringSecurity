@@ -24,10 +24,10 @@ public class HelloWorldConfiguration extends WebMvcConfigurerAdapter{//extended 
 	}
 
 	// <mvc:default-servlet-handler>에 해당됨.
-//    @Override
-//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-//        configurer.enable();
-//    }
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
 	@Bean//(name="HelloWorld") // deleted at Practice 2
 	public ViewResolver viewResolver() {
